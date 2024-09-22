@@ -1,35 +1,64 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React, { useEffect, useState } from "react";
+import "./index.scss";
+import { ButtonOpen } from "./button";
+import { ModalWindow } from "./popap";
 
-function App() {
-  const [count, setCount] = useState(0)
+export default function App() {
+  const [open, setOpen] = useState(false);
+  const [openClass, setOpenClass] = useState(false);
+
+  const onChangeState = () => {
+    if (open === false) {
+      setOpen(true);
+    } else {
+      setOpen(false);
+    }
+  };
+  const onChangeClass = () => {
+    if (openClass === false) {
+      setOpenClass(!openClass);
+    } else {
+      setOpenClass(false);
+    }
+  };
 
   return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div className="App">
+      <ButtonOpen
+        className={"open-modal-btn "}
+        name={"✨ Відкрити окно 1"}
+        onClickOpen={onChangeState}
+      ></ButtonOpen>
+      <ButtonOpen
+        className={"open-modal-btn "}
+        name={"✨ Відкрити окно 2"}
+        onClickOpen={onChangeClass}
+      ></ButtonOpen>
+      <div className="modal-hover">
+        <ButtonOpen
+          className={"open-modal-btn "}
+          name={"✨ Відкрити окно 3"}
+          onClickOpen={onChangeState}
+        ></ButtonOpen>
+        <div className="modal-hover__body">
+          <h2 className="modal-hover__title">Hover popap</h2>
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
 
-export default App
+      <ModalWindow
+        className={"overlay animated "}
+        onClickOpen={onChangeClass}
+      ></ModalWindow>
+      <ModalWindow
+        className={`overlay animated ${openClass ? "show" : ""}`}
+        onClickOpen={onChangeClass}
+      ></ModalWindow>
+      {open && (
+        <ModalWindow
+          className={"overlay"}
+          onClickOpen={onChangeState}
+        ></ModalWindow>
+      )}
+    </div>
+  );
+}
